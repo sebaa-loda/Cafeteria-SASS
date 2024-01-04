@@ -4,6 +4,7 @@ h1,h2,h3{
   font-family: v.$fuentePrincipal;
   margin: 0 0 v.$separacion 0;
   text-transform: uppercase;
+  text-align: center;
   line-height: 1.5;
 }
 
@@ -28,6 +29,18 @@ h2{
     margin: 0 auto;
     background-image: url(../img/cafe.svg);
     background-size: 10rem;
+  }
+}
+
+.heading-blanco{
+  @extend h2;
+  color: v.$blanco;
+  span{
+    color: v.$blanco;
+  }
+
+  &::after{
+    display: none;
   }
 }
 
