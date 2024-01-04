@@ -7,10 +7,11 @@ const autoprefixer = require('autoprefixer');
 
 // Imagenes
 const imagemin = require('gulp-imagemin');
+const webp = require("gulp-webp")
+const avif = require("gulp-avif")
 
 function css( done ) {
     src('src/scss/app.scss')
-        .pipe( sourcemaps.init() )
         .pipe( sass() )
         .pipe( postcss([ autoprefixer() ]) )
         .pipe( dest('build/css') )
@@ -24,6 +25,24 @@ function imagenes() {
         .pipe( dest('build/img') )
 }
 
+function imagenWebp(){
+    const opciones = {
+        quality: 50
+    }
+    return src("src/img/**/*.{png,jpg}")
+        .pipe(webp(opciones))
+        .pipe(dest("build/img"))
+}
+
+function imagenAvif(){
+    const opciones ={
+        quality:50
+    }
+    return src("src/img/**/*.{png,jpg}")
+        .pipe(avif(opciones))
+        .pipe(dest("build/img"))
+}
+
 function dev() {
     watch( 'src/scss/**/*.scss', css );
     watch( 'src/img/**/*', imagenes );
@@ -33,7 +52,9 @@ function dev() {
 exports.css = css;
 exports.dev = dev;
 exports.imagenes = imagenes;
-exports.default = series( imagenes, css, dev  );
+exports.imagenWebp = imagenWebp
+exports.imagenAvif = imagenAvif
+exports.default = series( imagenes,imagenWebp,imagenAvif, css, dev  );
 
 // series - Se inicia una tarea, y hasta que finaliza, inicia la siguiente
 // parallel - Todas inician al mismo tiempo
